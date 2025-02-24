@@ -64,6 +64,7 @@
             padding: 6px 12px;
             border-radius: 5px;
             cursor: pointer;
+            font-family: 'Arial', sans-serif; /* Обновляем шрифт */
         }
 
         .theme-switcher {
@@ -109,8 +110,9 @@
 
         .plan-card button,
         .location-btn {
-            font-family: 'Sans-serif';
+            font-family: 'Arial', sans-serif; /* Обновляем шрифт */
         }
+
         .location-btn {
             display: flex;
             align-items: center;
@@ -122,16 +124,6 @@
             width: 100%;
             cursor: pointer;
             color: var(--text-color);
-        }
-
-        button {
-            background: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 5px;
         }
 
         .price {
@@ -193,17 +185,17 @@
             <h2>📍 Доступные локации</h2>
             <button class="location-btn" onclick="showConfig('finland')">
                 <img src="https://flagcdn.com/fi.svg" class="flag" alt="Finland" width="32">
-                Finland
+                Финляндия
             </button>
 
             <button class="location-btn" onclick="showConfig('denmark')">
                 <img src="https://flagcdn.com/dk.svg" class="flag" alt="Denmark" width="32">
-                Denmark
+                Дания
             </button>
 
             <button class="location-btn" onclick="showConfig('germany')">
                 <img src="https://flagcdn.com/de.svg" class="flag" alt="Germany" width="32">
-                Germany
+                Германия
             </button>
         </div>
 
@@ -222,11 +214,20 @@
         Telegram.WebApp.expand();
 
         // Данные пользователя
-        let userData = {
-            name: "Иван Иванов",
-            balance: 50.00,
-            subscription: "Pro"
-        };
+        function loadUserData() {
+            // Пример загрузки данных пользователя
+            let userData = {
+                name: "Иван Иванов",
+                balance: 50.00,
+                subscription: "Pro"
+            };
+            updateUserHeader(userData);
+        }
+
+        function updateUserHeader(userData) {
+            document.getElementById('username').textContent = userData.name;
+            document.getElementById('balance').textContent = userData.balance.toFixed(2);
+        }
 
         // Инициализация темы
         function initTheme() {
@@ -235,21 +236,26 @@
             Telegram.WebApp.setHeaderColor(savedTheme === 'dark' ? '#2d2d2d' : '#ffffff');
         }
 
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            Telegram.WebApp.setHeaderColor(newTheme === 'dark' ? '#2d2d2d' : '#ffffff');
+            
+            // Анимация иконки
+            const icon = document.querySelector('.theme-icon');
+            icon.style.transition = 'transform 0.3s ease, fill 0.3s ease';
+            icon.style.transform = newTheme === 'dark' ? 'rotate(180deg)' : 'rotate(0deg)';
+            icon.style.fill = newTheme === 'dark' ? '#FFD700' : 'var(--text-color)';
+        }
+
         // Инициализация иконки
         window.onload = function() {
-            const theme = localStorage.getItem('theme') || 'light';
-            const icon = document.querySelector('.theme-icon');
-            if(theme === 'dark') {
-                icon.style.transform = 'rotate(180deg)';
-                icon.style.fill = '#FFD700';
-            }
+            initTheme();
+            loadUserData();
         };
-
-        // Обновление данных пользователя
-        function updateUserHeader() {
-            document.getElementById('username').textContent = userData.name;
-            document.getElementById('balance').textContent = userData.balance.toFixed(2);
-        }
 
         // Пополнение баланса
         function showTopUpModal() {
@@ -265,7 +271,7 @@
                     const amount = prompt("Введите сумму:");
                     if(amount && !isNaN(amount)) {
                         userData.balance += parseFloat(amount);
-                        updateUserHeader();
+                        updateUserHeader(userData);
                         Telegram.WebApp.showAlert(`Баланс пополнен на $${amount}`);
                     }
                 }
@@ -301,38 +307,6 @@
                 ${config.proxy}
             `);
         }
-
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.body.setAttribute('data-theme', savedTheme);
-            const icon = document.querySelector('.theme-icon');
-            if (savedTheme === 'dark') {
-                icon.style.transform = 'rotate(180deg)';
-                icon.style.fill = '#FFD700';
-            } else {
-                icon.style.transform = 'rotate(0deg)';
-                icon.style.fill = 'var(--text-color)';
-            }
-            Telegram.WebApp.setHeaderColor(savedTheme === 'dark' ? '#2d2d2d' : '#ffffff');
-        }
-
-        function toggleTheme() {
-            const currentTheme = document.body.getAttribute('data-theme') || 'light';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            document.body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            Telegram.WebApp.setHeaderColor(newTheme === 'dark' ? '#2d2d2d' : '#ffffff');
-            
-            // Анимация иконки
-            const icon = document.querySelector('.theme-icon');
-            icon.style.transition = 'transform 0.3s ease, fill 0.3s ease';
-            icon.style.transform = newTheme === 'dark' ? 'rotate(180deg)' : 'rotate(0deg)';
-            icon.style.fill = newTheme === 'dark' ? '#FFD700' : 'var(--text-color)';
-        }
-
-        // Инициализация темы и иконки при загрузке страницы
-        window.onload = initTheme;
     </script>
 </body>
 </html>
