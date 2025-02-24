@@ -1,121 +1,159 @@
 :root {
     --bg-color: #ffffff;
-    --text-color: #2b2b2b;
-    --card-bg: #ffffff;
-    --border-color: #e0e0e0;
+    --text-color: #2d2d2d;
+    --primary-color: #007bff;
+    --hover-color: #0056b3;
+    --section-bg: #f8f9fa;
+    --border-color: #dee2e6;
 }
 
 [data-theme="dark"] {
-    --bg-color: #1a1a1a;
+    --bg-color: #2d2d2d;
     --text-color: #ffffff;
-    --card-bg: #2d2d2d;
-    --border-color: #404040;
+    --primary-color: #0d6efd;
+    --hover-color: #0b5ed7;
+    --section-bg: #1a1a1a;
+    --border-color: #333333;
 }
 
 body {
-    font-family: Verdana, sans-serif;
-    padding: 15px;
-    background: var(--bg-color);
+    font-family: -apple-system, system-ui, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: var(--bg-color);
     color: var(--text-color);
-    transition: all 0.3s ease;
-    padding-top: 60px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
 }
 
 .user-header {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    background: var(--card-bg);
-    padding: 12px 15px;
     display: flex;
     justify-content: space-between;
     align-items: center;
-    border-bottom: 1px solid var(--border-color);
-    z-index: 1000;
+    margin-bottom: 30px;
+    padding: 15px;
+    background: var(--section-bg);
+    border-radius: 12px;
 }
 
 .user-info {
     display: flex;
-    gap: 15px;
-    align-items: center;
+    flex-direction: column;
+    gap: 5px;
 }
 
 .balance {
-    background: var(--bg-color);
-    padding: 5px 10px;
-    border-radius: 15px;
     font-weight: bold;
-    border: 1px solid var(--border-color);
+    color: var(--primary-color);
+}
+
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
 }
 
 .top-up-btn {
-    background: #28a745;
+    background: var(--primary-color);
     color: white;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 5px;
-    cursor: pointer;
-    font-family: 'Arial', sans-serif; /* Обновляем шрифт */
+}
+
+.top-up-btn:hover {
+    background: var(--hover-color);
+    transform: translateY(-1px);
 }
 
 .theme-switcher {
     position: fixed;
-    top: 15px;
-    left: 15px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    z-index: 1001;
-    padding: 8px;
+    bottom: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    padding: 12px;
     border-radius: 50%;
-    transition: all 0.3s ease;
-}
-
-.theme-switcher:hover {
-    background: rgba(0,0,0,0.1);
+    background: var(--section-bg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
 .theme-icon {
     width: 24px;
     height: 24px;
     fill: var(--text-color);
-    transition: all 0.3s ease;
 }
 
-[data-theme="dark"] .theme-icon {
-    fill: #FFD700;
+.section {
+    background: var(--section-bg);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+.section h2 {
+    margin-top: 0;
+    margin-bottom: 15px;
 }
 
 .plan-card {
-    background: var(--card-bg);
-    padding: 15px;
-    margin: 10px 0;
-    border-radius: 10px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    background: var(--bg-color);
+    padding: 20px;
+    border-radius: 12px;
+    margin-bottom: 15px;
     border: 1px solid var(--border-color);
 }
 
-.plan-card button,
-.location-btn {
-    font-family: 'Arial', sans-serif; /* Обновляем шрифт */
+.plan-card button {
+    background: var(--primary-color);
+    color: white;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.plan-card button:hover {
+    background: var(--hover-color);
 }
 
 .location-btn {
     display: flex;
     align-items: center;
-    padding: 12px;
-    margin: 5px 0;
-    background: var(--card-bg);
+    gap: 12px;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 10px;
+    text-align: left;
+    background: var(--bg-color);
     border: 1px solid var(--border-color);
     border-radius: 8px;
-    width: 100%;
-    cursor: pointer;
-    color: var(--text-color);
+    transition: transform 0.2s;
 }
 
-.price {
-    font-size: 24px;
-    color: #28a745;
-    margin: 10px 0;
+.location-btn:hover {
+    transform: translateX(5px);
+    border-color: var(--primary-color);
+}
+
+.flag {
+    border-radius: 4px;
+}
+
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    
+    .user-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    button {
+        width: 100%;
+    }
 }
