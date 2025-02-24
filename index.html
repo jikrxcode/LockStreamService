@@ -52,25 +52,72 @@
             </div>
         </div>
 
-        <!-- Секция локаций -->
-        <div class="section">
-            <h2>📍 Доступные локации</h2>
 
-            <button class="location-btn" onclick="showConfig('russia')">
-                <img src="https://flagcdn.com/ru.svg" class="flag" alt="Russia" width="32"> Moscow</button>
 
-            <button class="location-btn" onclick="showConfig('finland')">
-                <img src="https://flagcdn.com/fi.svg" class="flag" alt="Finland" width="32"> Helsinki</button>
+<!-- Секция локаций -->
+<div class="section">
+    <h2>📍 Доступные локации</h2>
 
-            <button class="location-btn" onclick="showConfig('netherland')">
-                <img src="https://flagcdn.com/nl.svg" class="flag" alt="Netherlands" width="32"> Amsterdam</button>
+    <!-- Существующие кнопки -->
+    <button class="location-btn" onclick="showConfig('russia')">
+        <img src="https://flagcdn.com/ru.svg" class="flag" alt="Russia" width="32"> Moscow</button>
 
-            <button class="location-btn" onclick="showConfig('germany')">
-                <img src="https://flagcdn.com/de.svg" class="flag" alt="Germany" width="32"> Frankfurt</button>
+    <button class="location-btn" onclick="showConfig('finland')">
+        <img src="https://flagcdn.com/fi.svg" class="flag" alt="Finland" width="32"> Helsinki</button>
 
-            <button class="location-btn" onclick="showConfig('bulgaria')">
-                <img src="https://flagcdn.com/bg.svg" class="flag" alt="Bulgaria" width="32"> Sofia</button>
-        </div>
+    <button class="location-btn" onclick="showConfig('netherland')">
+        <img src="https://flagcdn.com/nl.svg" class="flag" alt="Netherlands" width="32"> Amsterdam</button>
+
+    <button class="location-btn" onclick="showConfig('germany')">
+        <img src="https://flagcdn.com/de.svg" class="flag" alt="Germany" width="32"> Frankfurt</button>
+
+    <button class="location-btn" onclick="showConfig('bulgaria')">
+        <img src="https://flagcdn.com/bg.svg" class="flag" alt="Bulgaria" width="32"> Sofia</button>
+
+    <!-- Новые кнопки -->
+    <button class="location-btn" onclick="showConfig('spain')">
+        <img src="https://flagcdn.com/es.svg" class="flag" alt="Spain" width="32"> Madrid</button>
+
+    <button class="location-btn" onclick="showConfig('singapore')">
+        <img src="https://flagcdn.com/sg.svg" class="flag" alt="Singapore" width="32"> Singapore</button>
+
+    <button class="location-btn" onclick="showConfig('usa')">
+        <img src="https://flagcdn.com/us.svg" class="flag" alt="USA" width="32"> New York</button>
+
+    <button class="location-btn" onclick="showConfig('france')">
+        <img src="https://flagcdn.com/fr.svg" class="flag" alt="France" width="32"> Paris</button>
+</div>
+```
+
+И обновите объект конфигураций в JavaScript:
+
+```javascript
+const configs = {
+    finland: {
+        vless: "vless://...@finland.server.com:443?...",
+        proxy: "socks5://user:pass@finland.server.com:1080"
+    },
+    spain: {
+        vless: "vless://...@spain.server.com:443?...",
+        proxy: "socks5://user:pass@spain.server.com:1080"
+    },
+    singapore: {
+        vless: "vless://...@singapore.server.com:443?...",
+        proxy: "socks5://user:pass@singapore.server.com:1080"
+    },
+    usa: {
+        vless: "vless://...@usa.server.com:443?...",
+        proxy: "socks5://user:pass@usa.server.com:1080"
+    },
+    france: {
+        vless: "vless://...@france.server.com:443?...",
+        proxy: "socks5://user:pass@france.server.com:1080"
+    }
+    // ... остальные существующие конфигурации
+};
+```
+
+Все новые кнопки будут стилизованы автоматически благодаря классу `location-btn`. Флаги подгружаются с CDN flagcdn.com, размер и отображение регулируются через CSS.
 
         <!-- Секция поддержки -->
         <div class="section">
