@@ -1,28 +1,35 @@
 :root {
     --bg-color: #ffffff;
-    --text-color: #2d2d2d;
-    --primary-color: #007bff;
-    --hover-color: #0056b3;
+    --text-color: #1a1a1a;
+    --primary-color: #28a745;      /* Основной зеленый */
+    --hover-color: #218838;        /* Темно-зеленый */
     --section-bg: #f8f9fa;
     --border-color: #dee2e6;
+    --button-bg: #e8f5e9;          /* Светло-зеленый фон */
+    --button-text: #1b5e20;        /* Темно-зеленый текст */
+    --button-border: #c8e6c9;      /* Граница кнопок */
 }
 
 [data-theme="dark"] {
-    --bg-color: #2d2d2d;
-    --text-color: #ffffff;
-    --primary-color: #0d6efd;
-    --hover-color: #0b5ed7;
-    --section-bg: #1a1a1a;
-    --border-color: #333333;
+    --bg-color: #121212;           /* Глубокий темный фон */
+    --text-color: #e0e0e0;
+    --primary-color: #4caf50;      /* Светло-зеленый */
+    --hover-color: #45a049;        /* Приглушенный зеленый */
+    --section-bg: #1e1e1e;
+    --border-color: #37474f;
+    --button-bg: #2d2d2d;
+    --button-text: #c8e6c9;
+    --button-border: #37474f;
 }
 
+/* Основные стили */
 body {
     font-family: -apple-system, system-ui, sans-serif;
     margin: 0;
     padding: 20px;
     background-color: var(--bg-color);
     color: var(--text-color);
-    transition: background-color 0.3s, color 0.3s;
+    transition: all 0.3s ease;
 }
 
 .container {
@@ -30,6 +37,7 @@ body {
     margin: 0 auto;
 }
 
+/* Шапка пользователя */
 .user-header {
     display: flex;
     justify-content: space-between;
@@ -38,6 +46,7 @@ body {
     padding: 15px;
     background: var(--section-bg);
     border-radius: 12px;
+    border: 1px solid var(--border-color);
 }
 
 .user-info {
@@ -51,6 +60,7 @@ body {
     color: var(--primary-color);
 }
 
+/* Кнопки */
 button {
     padding: 12px 24px;
     border: none;
@@ -58,50 +68,25 @@ button {
     cursor: pointer;
     transition: all 0.2s ease;
     font-weight: 500;
+    background-color: var(--button-bg);
+    color: var(--button-text);
+    border: 1px solid var(--button-border);
+}
+
+button:hover {
+    filter: brightness(110%);
+    transform: translateY(-1px);
 }
 
 .top-up-btn {
     background: var(--primary-color);
     color: white;
+    border-color: transparent;
 }
 
-.top-up-btn:hover {
-    background: var(--hover-color);
-    transform: translateY(-1px);
-}
-
-.theme-switcher {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 48px;
-    height: 48px;
-    padding: 12px;
-    border-radius: 50%;
-    background: var(--section-bg);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-}
-
-.theme-icon {
-    width: 24px;
-    height: 24px;
-    fill: var(--text-color);
-}
-
-.section {
-    background: var(--section-bg);
-    padding: 20px;
-    border-radius: 12px;
-    margin-bottom: 20px;
-}
-
-.section h2 {
-    margin-top: 0;
-    margin-bottom: 15px;
-}
-
+/* Карточки тарифов */
 .plan-card {
-    background: var(--bg-color);
+    background: var(--section-bg);
     padding: 20px;
     border-radius: 12px;
     margin-bottom: 15px;
@@ -113,12 +98,10 @@ button {
     color: white;
     width: 100%;
     margin-top: 15px;
+    border-color: transparent;
 }
 
-.plan-card button:hover {
-    background: var(--hover-color);
-}
-
+/* Кнопки локаций */
 .location-btn {
     display: flex;
     align-items: center;
@@ -127,7 +110,7 @@ button {
     padding: 15px;
     margin-bottom: 10px;
     text-align: left;
-    background: var(--bg-color);
+    background: var(--section-bg);
     border: 1px solid var(--border-color);
     border-radius: 8px;
     transition: transform 0.2s;
@@ -138,22 +121,14 @@ button {
     border-color: var(--primary-color);
 }
 
-.flag {
-    border-radius: 4px;
-}
-
-@media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
-    
-    .user-header {
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
-    }
-    
-    button {
-        width: 100%;
-    }
-}
+/* Переключатель темы */
+.theme-switcher {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 48px;
+    height: 48px;
+    padding: 12px;
+    border-radius: 50%;
+    background: var(--section-bg);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.
