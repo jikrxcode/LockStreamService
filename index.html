@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Xray VPN Store</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <style>
+        :root {
+            --bg-color: #ffffff;
+            --text-color: #2b2b2b;
+            --card-bg: #ffffff;
+            --border-color: #e0e0e0;
+        }
+
+        [data-theme="dark"] {
+            --bg-color: #1a1a1a;
+            --text-color: #ffffff;
+            --card-bg: #2d2d2d;
+            --border-color: #404040;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            padding: 15px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            transition: all 0.3s ease;
+            padding-top: 60px;
+        }
+
+        .user-header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--card-bg);
+            padding: 12px 15px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border-color);
+            z-index: 1000;
+        }
+
+        .user-info {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .balance {
+            background: var(--bg-color);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-weight: bold;
+            border: 1px solid var(--border-color);
+        }
+
+        .top-up-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .theme-switcher {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            z-index: 1001;
+        }
+
+        .plan-card {
+            background: var(--card-bg);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 10px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            border: 1px solid var(--border-color);
+        }
+
+        .location-btn {
+            display: flex;
+            align-items: center;
+            padding: 12px;
+            margin: 5px 0;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            width: 100%;
+            cursor: pointer;
+            color: var(--text-color);
+        }
+
+        button {
+            background: #007bff;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+
+        .price {
+            font-size: 24px;
+            color: #28a745;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Личный кабинет -->
+    <div class="user-header">
+        <div class="user-info">
+            <span id="username">Гость</span>
+            <div class="balance">
+                $<span id="balance">0.00</span>
+            </div>
+        </div>
+        <button class="top-up-btn" onclick="showTopUpModal()">Пополнить</button>
+    </div>
+
+    <button class="theme-switcher" onclick="toggleTheme()">🌓</button>
+    
+    <div class="container">
+        <h1>🔒 Xray Premium VPN</h1>
+        
+        <!-- Секция тарифов -->
+        <div class="section">
+            <h2>📦 Тарифные планы</h2>
+            <div class="plan-card">
+                <h3>Basic</h3>
+                <div class="price">$4.99/мес</div>
+                <ul>
+                    <li>Доступ ко всем локациям</li>
+                    <li>Скорость до 100 Мбит/с</li>
+                    <li>1 устройство</li>
+                </ul>
+                <button onclick="showPayment('basic')">Купить</button>
+            </div>
+
+            <div class="plan-card">
+                <h3>Pro</h3>
+                <div class="price">$9.99/мес</div>
+                <ul>
+                    <li>Приоритетное соединение</li>
+                    <li>Скорость до 1 Гбит/с</li>
+                    <li>5 устройств</li>
+                </ul>
+                <button onclick="showPayment('pro')">Купить</button>
+            </div>
+        </div>
+
+        <!-- Секция локаций -->
+        <div class="section">
+            <h2>📍 Доступные локации</h2>
+            <button class="location-btn" onclick="showConfig('finland')">
+                <img src="https://flagcdn.com/fi.svg" class="flag" alt="Finland" width="32">
+                Finland
+            </button>
+
+            <button class="location-btn" onclick="showConfig('denmark')">
+                <img src="https://flagcdn.com/dk.svg" class="flag" alt="Denmark" width="32">
+                Denmark
+            </button>
+
+            <button class="location-btn" onclick="showConfig('germany')">
+                <img src="https://flagcdn.com/de.svg" class="flag" alt="Germany" width="32">
+                Germany
+            </button>
+        </div>
+
+        <!-- Секция поддержки -->
+        <div class="section">
+            <h2>🆘 Поддержка</h2>
+            <button onclick="Telegram.WebApp.openTelegramLink('tg://resolve?domain=your_support')">
+                📩 Написать в поддержку
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Инициализация Telegram Web App
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
+
+        // Данные пользователя
+        let userData = {
+            name: "Иван Иванов",
+            balance: 50.00,
+            subscription: "Pro"
+        };
+
+        // Инициализация темы
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            Telegram.WebApp.setHeaderColor(savedTheme === 'dark' ? '#2d2d2d' : '#ffffff');
+        }
+
+        // Переключение темы
+        function toggleTheme() {
+            const currentTheme = document.body.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            document.body.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            Telegram.WebApp.setHeaderColor(newTheme === 'dark' ? '#2d2d2d' : '#ffffff');
+            
+            document.querySelector('.theme-switcher').textContent = 
+                newTheme === 'dark' ? '🌕' : '🌓';
+        }
+
+        // Обновление данных пользователя
+        function updateUserHeader() {
+            document.getElementById('username').textContent = userData.name;
+            document.getElementById('balance').textContent = userData.balance.toFixed(2);
+        }
+
+        // Пополнение баланса
+        function showTopUpModal() {
+            Telegram.WebApp.showPopup({
+                title: 'Пополнение баланса',
+                message: 'Введите сумму для пополнения:',
+                buttons: [
+                    {id: 'cancel', type: 'cancel'},
+                    {id: 'confirm', type: 'default', text: 'Пополнить'}
+                ]
+            }, function(buttonId) {
+                if(buttonId === 'confirm') {
+                    const amount = prompt("Введите сумму:");
+                    if(amount && !isNaN(amount)) {
+                        userData.balance += parseFloat(amount);
+                        updateUserHeader();
+                        Telegram.WebApp.showAlert(`Баланс пополнен на $${amount}`);
+                    }
+                }
+            });
+        }
+
+        // Покупка тарифа
+        function showPayment(plan) {
+            Telegram.WebApp.showAlert(`Оплата тарифа ${plan}...`);
+        }
+
+        // Показ конфигурации
+        const configs = {
+            finland: {
+                vless: "vless://...@finland.server.com:443?...",
+                proxy: "socks5://user:pass@finland.server.com:1080"
+            },
+            denmark: {
+                vless: "vless://...@denmark.server.com:443?...",
+                proxy: "socks5://user:pass@denmark.server.com:1080"
+            }
+        };
+
+        function showConfig(location) {
+            const config = configs[location];
+            Telegram.WebApp.showAlert(`
+                🛠 Конфигурация для ${location}:
+                
+                Xray Vless:
+                ${config.vless}
+
+                SOCKS5 Proxy:
+                ${config.proxy}
+            `);
+        }
+
+        // Инициализация при загрузке
+        window.onload = function() {
+            initTheme();
+            updateUserHeader();
+            document.querySelector('.theme-switcher').textContent = 
+                localStorage.getItem('theme') === 'dark' ? '🌕' : '🌓';
+        };
+    </script>
+</body>
+</html>
