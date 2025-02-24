@@ -98,7 +98,7 @@
     </div>
 
     <script>
-        // Инициализация Telegram Web App
+    // Инициализация Telegram Web App
     Telegram.WebApp.ready();
     Telegram.WebApp.expand();
 
@@ -109,11 +109,14 @@
     // Инициализация пользователя
     function initUser() {
         // Пробуем получить данные из Telegram
-        if (Telegram.WebApp.initDataUnsafe?.user) {
-            const tgUser = Telegram.WebApp.initDataUnsafe.user;
-            userName = tgUser.first_name || tgUser.username || "Пользователь Telegram";
+        try {
+            if (Telegram.WebApp.initDataUnsafe?.user) {
+                const tgUser = Telegram.WebApp.initDataUnsafe.user;
+                userName = tgUser.first_name || tgUser.username || "Пользователь Telegram";
+            }
+        } catch (e) {
+            console.error('Ошибка получения данных пользователя:', e);
         }
-        
         updateUserHeader();
     }
 
@@ -123,12 +126,34 @@
         document.getElementById('balance').textContent = userBalance.toFixed(2);
     }
 
-        // Инициализация темы
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.body.setAttribute('data-theme', savedTheme);
-            Telegram.WebApp.setHeaderColor(savedTheme === 'dark' ? '#2d2d2d' : '#ffffff');
-        }
+    // Инициализация при загрузке
+    window.onload = function() {
+        initTheme();
+        initUser(); // Исправлено с loadUser() на initUser()
+    };
+
+    // Пополнение баланса (исправленная версия)
+    function showTopUpModal() {
+        Telegram.WebApp.showPopup({
+            title: 'Пополнение баланса',
+            message: 'Введите сумму для пополнения:',
+            buttons: [
+                {id: 'cancel', type: 'cancel'},
+                {id: 'confirm', type: 'default', text: 'Пополнить'}
+            ]
+        }, function(buttonId) {
+            if(buttonId === 'confirm') {
+                const amount = parseFloat(prompt("Введите сумму:"));
+                if (!isNaN(amount) && amount > 0) {
+                    userBalance += amount;
+                    updateUserHeader();
+                    Telegram.WebApp.showAlert(`✅ Баланс пополнен на $${amount.toFixed(2)}`);
+                } else {
+                    Telegram.WebApp.showAlert("❌ Некорректная сумма");
+                }
+            }
+        });
+    }
 
         function toggleTheme() {
             const currentTheme = document.body.getAttribute('data-theme') || 'light';
@@ -150,27 +175,6 @@
             initTheme();
             initUser();
         };
-
-        // Пополнение баланса
-        function showTopUpModal() {
-            Telegram.WebApp.showPopup({
-                title: 'Пополнение баланса',
-                message: 'Введите сумму для пополнения:',
-                buttons: [
-                    {id: 'cancel', type: 'cancel'},
-                    {id: 'confirm', type: 'default', text: 'Пополнить'}
-                ]
-            }, function(buttonId) {
-                if(buttonId === 'confirm') {
-                    const amount = prompt("Введите сумму:");
-                    if(amount && !isNaN(amount)) {
-                        userData.balance += parseFloat(amount);
-                        updateUserHeader(userData);
-                        Telegram.WebApp.showAlert(`Баланс пополнен на $${amount}`);
-                    }
-                }
-            });
-        }
 
         // Покупка тарифа
         function showPayment(plan) {
