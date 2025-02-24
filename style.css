@@ -1,0 +1,121 @@
+:root {
+    --bg-color: #ffffff;
+    --text-color: #2b2b2b;
+    --card-bg: #ffffff;
+    --border-color: #e0e0e0;
+}
+
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #ffffff;
+    --card-bg: #2d2d2d;
+    --border-color: #404040;
+}
+
+body {
+    font-family: Verdana, sans-serif;
+    padding: 15px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    transition: all 0.3s ease;
+    padding-top: 60px;
+}
+
+.user-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--card-bg);
+    padding: 12px 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--border-color);
+    z-index: 1000;
+}
+
+.user-info {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.balance {
+    background: var(--bg-color);
+    padding: 5px 10px;
+    border-radius: 15px;
+    font-weight: bold;
+    border: 1px solid var(--border-color);
+}
+
+.top-up-btn {
+    background: #28a745;
+    color: white;
+    border: none;
+    padding: 6px 12px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Arial', sans-serif; /* Обновляем шрифт */
+}
+
+.theme-switcher {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    z-index: 1001;
+    padding: 8px;
+    border-radius: 50%;
+    transition: all 0.3s ease;
+}
+
+.theme-switcher:hover {
+    background: rgba(0,0,0,0.1);
+}
+
+.theme-icon {
+    width: 24px;
+    height: 24px;
+    fill: var(--text-color);
+    transition: all 0.3s ease;
+}
+
+[data-theme="dark"] .theme-icon {
+    fill: #FFD700;
+}
+
+.plan-card {
+    background: var(--card-bg);
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    border: 1px solid var(--border-color);
+}
+
+.plan-card button,
+.location-btn {
+    font-family: 'Arial', sans-serif; /* Обновляем шрифт */
+}
+
+.location-btn {
+    display: flex;
+    align-items: center;
+    padding: 12px;
+    margin: 5px 0;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    width: 100%;
+    cursor: pointer;
+    color: var(--text-color);
+}
+
+.price {
+    font-size: 24px;
+    color: #28a745;
+    margin: 10px 0;
+}
