@@ -175,3 +175,53 @@ button:hover {
     border-radius: 4px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
+
+/* Стили для скидок */
+.price-container {
+    position: relative;
+    margin: 15px 0;
+}
+
+.old-price {
+    color: #888;
+    text-decoration: line-through;
+    font-size: 0.9em;
+}
+
+.new-price {
+    color: var(--primary-color);
+    font-size: 1.4em;
+    font-weight: bold;
+    margin: 5px 0;
+}
+
+.discount-badge {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: #ff4757;
+    color: white;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.8em;
+    font-weight: bold;
+    animation: pulse 2s infinite;
+}
+
+[data-theme="dark"] .old-price {
+    color: #666;
+}
+
+/* Анимация пульсации */
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+@media (max-width: 480px) {
+    .discount-badge {
+        font-size: 0.7em;
+        padding: 4px 8px;
+    }
+}
