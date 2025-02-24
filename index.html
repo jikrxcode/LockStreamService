@@ -5,133 +5,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <style>
-        :root {
-            --bg-color: #ffffff;
-            --text-color: #2b2b2b;
-            --card-bg: #ffffff;
-            --border-color: #e0e0e0;
-        }
-
-        [data-theme="dark"] {
-            --bg-color: #1a1a1a;
-            --text-color: #ffffff;
-            --card-bg: #2d2d2d;
-            --border-color: #404040;
-        }
-
-        body {
-            font-family: Verdana, sans-serif;
-            padding: 15px;
-            background: var(--bg-color);
-            color: var(--text-color);
-            transition: all 0.3s ease;
-            padding-top: 60px;
-        }
-
-        .user-header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            background: var(--card-bg);
-            padding: 12px 15px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid var(--border-color);
-            z-index: 1000;
-        }
-
-        .user-info {
-            display: flex;
-            gap: 15px;
-            align-items: center;
-        }
-
-        .balance {
-            background: var(--bg-color);
-            padding: 5px 10px;
-            border-radius: 15px;
-            font-weight: bold;
-            border: 1px solid var(--border-color);
-        }
-
-        .top-up-btn {
-            background: #28a745;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: 'Arial', sans-serif; /* Обновляем шрифт */
-        }
-
-        .theme-switcher {
-            position: fixed;
-            top: 15px;
-            left: 15px;
-            background: none;
-            border: none;
-            cursor: pointer;
-            z-index: 1001;
-            padding: 8px;
-            border-radius: 50%;
-            transition: all 0.3s ease;
-        }
-
-        .theme-switcher:hover {
-            background: rgba(0,0,0,0.1);
-        }
-
-        .theme-icon {
-            width: 24px;
-            height: 24px;
-            fill: var(--text-color);
-            transition: all 0.3s ease;
-        }
-
-        [data-theme="dark"] .theme-icon {
-            fill: #FFD700;
-        }
-
-        .user-header {
-            padding-left: 50px; /* Добавляем место для иконки */
-        }
-
-        .plan-card {
-            background: var(--card-bg);
-            padding: 15px;
-            margin: 10px 0;
-            border-radius: 10px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-            border: 1px solid var(--border-color);
-        }
-
-        .plan-card button,
-        .location-btn {
-            font-family: 'Arial', sans-serif; /* Обновляем шрифт */
-        }
-
-        .location-btn {
-            display: flex;
-            align-items: center;
-            padding: 12px;
-            margin: 5px 0;
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 8px;
-            width: 100%;
-            cursor: pointer;
-            color: var(--text-color);
-        }
-
-        .price {
-            font-size: 24px;
-            color: #28a745;
-            margin: 10px 0;
-        }
-    </style>
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <!-- Личный кабинет -->
@@ -152,8 +26,6 @@
     </button>
     
     <div class="container">
-        <!--  <h1>🔒 Xray Premium VP</h1> -->
-        
         <!-- Секция тарифов -->
         <div class="section">
             <h2>📦 Тарифные планы</h2>
@@ -183,6 +55,11 @@
         <!-- Секция локаций -->
         <div class="section">
             <h2>📍 Доступные локации</h2>
+            <button class="location-btn" onclick="showConfig('russia')">
+                <img src="https://flagcdn.com/ru.svg" class="flag" alt="Russia" width="32">
+               Moscow
+            </button>
+
             <button class="location-btn" onclick="showConfig('finland')">
                 <img src="https://flagcdn.com/fi.svg" class="flag" alt="Finland" width="32">
                 Финляндия
@@ -190,7 +67,7 @@
 
             <button class="location-btn" onclick="showConfig('denmark')">
                 <img src="https://flagcdn.com/dk.svg" class="flag" alt="Denmark" width="32">
-                Дания
+                
             </button>
 
             <button class="location-btn" onclick="showConfig('germany')">
