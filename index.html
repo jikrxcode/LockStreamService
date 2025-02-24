@@ -99,24 +99,29 @@
 
     <script>
         // Инициализация Telegram Web App
-        Telegram.WebApp.ready();
-        Telegram.WebApp.expand();
+    Telegram.WebApp.ready();
+    Telegram.WebApp.expand();
 
-        // Данные пользователя
-        function loadUserData() {
-            // Пример загрузки данных пользователя
-            let userData = {
-                name: "Иван Иванов",
-                balance: 50.00,
-                subscription: "Pro"
-            };
-            updateUserHeader(userData);
-        }
+    // Глобальные переменные
+    let userBalance = 0.00;
+    let userName = "Гость";
 
-        function updateUserHeader(userData) {
-            document.getElementById('username').textContent = userData.name;
-            document.getElementById('balance').textContent = userData.balance.toFixed(2);
+    // Инициализация пользователя
+    function initUser() {
+        // Пробуем получить данные из Telegram
+        if (Telegram.WebApp.initDataUnsafe?.user) {
+            const tgUser = Telegram.WebApp.initDataUnsafe.user;
+            userName = tgUser.first_name || tgUser.username || "Пользователь Telegram";
         }
+        
+        updateUserHeader();
+    }
+
+    // Обновление шапки профиля
+    function updateUserHeader() {
+        document.getElementById('username').textContent = userName;
+        document.getElementById('balance').textContent = userBalance.toFixed(2);
+    }
 
         // Инициализация темы
         function initTheme() {
@@ -143,7 +148,7 @@
         // Инициализация иконки
         window.onload = function() {
             initTheme();
-            loadUserData();
+            loadUser();
         };
 
         // Пополнение баланса
