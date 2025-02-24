@@ -69,12 +69,33 @@
         .theme-switcher {
             position: fixed;
             top: 15px;
-            right: 15px;
+            left: 15px;
             background: none;
             border: none;
-            font-size: 24px;
             cursor: pointer;
             z-index: 1001;
+            padding: 8px;
+            border-radius: 50%;
+            transition: all 0.3s ease;
+        }
+
+        .theme-switcher:hover {
+            background: rgba(0,0,0,0.1);
+        }
+
+        .theme-icon {
+            width: 24px;
+            height: 24px;
+            fill: var(--text-color);
+            transition: all 0.3s ease;
+        }
+
+        [data-theme="dark"] .theme-icon {
+            fill: #FFD700;
+        }
+        
+        .user-header {
+            padding-left: 50px; /* Добавляем место для иконки */
         }
 
         .plan-card {
@@ -128,10 +149,14 @@
         <button class="top-up-btn" onclick="showTopUpModal()">Пополнить</button>
     </div>
 
-    <button class="theme-switcher" onclick="toggleTheme()">🌓</button>
+    <button class="theme-switcher" onclick="toggleTheme()">
+        <svg class="theme-icon" viewBox="0 0 24 24">
+            <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1-8.313-12.454z"/>
+        </svg>
+    </button>
     
     <div class="container">
-        <h1>🔒 Xray Premium VPN</h1>
+        <!--  <h1>🔒 Xray Premium VP</h1> -->
         
         <!-- Секция тарифов -->
         <div class="section">
@@ -206,19 +231,30 @@
             Telegram.WebApp.setHeaderColor(savedTheme === 'dark' ? '#2d2d2d' : '#ffffff');
         }
 
-        // Переключение темы
         function toggleTheme() {
-            const currentTheme = document.body.getAttribute('data-theme') || 'light';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            document.body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            Telegram.WebApp.setHeaderColor(newTheme === 'dark' ? '#2d2d2d' : '#ffffff');
-            
-            document.querySelector('.theme-switcher').textContent = 
-                newTheme === 'dark' ? '🌕' : '🌓';
-        }
+        const currentTheme = document.body.getAttribute('data-theme') || 'light';
+        const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+        
+        document.body.setAttribute('data-theme', newTheme);
+        localStorage.setItem('theme', newTheme);
+        Telegram.WebApp.setHeaderColor(newTheme === 'dark' ? '#2d2d2d' : '#ffffff');
+        
+        // Анимация иконки
+        const icon = document.querySelector('.theme-icon');
+        icon.style.transform = newTheme === 'dark' 
+            ? 'rotate(180deg) scale(1.1)' 
+            : 'rotate(0deg) scale(1)';
+    }
 
+    // Инициализация иконки
+    window.onload = function() {
+        const theme = localStorage.getItem('theme') || 'light';
+        const icon = document.querySelector('.theme-icon');
+        if(theme === 'dark') {
+            icon.style.transform = 'rotate(180deg)';
+            icon.style.fill = '#FFD700';
+        }
+    };
         // Обновление данных пользователя
         function updateUserHeader() {
             document.getElementById('username').textContent = userData.name;
@@ -278,11 +314,13 @@
 
         // Инициализация при загрузке
         window.onload = function() {
-            initTheme();
-            updateUserHeader();
-            document.querySelector('.theme-switcher').textContent = 
-                localStorage.getItem('theme') === 'dark' ? '🌕' : '🌓';
-        };
+        const theme = localStorage.getItem('theme') || 'light';
+        const icon = document.querySelector('.theme-icon');
+        if(theme === 'dark') {
+            icon.style.transform = 'rotate(180deg)';
+            icon.style.fill = '#FFD700';
+        }
+    };
     </script>
 </body>
 </html>
