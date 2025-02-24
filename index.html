@@ -13,7 +13,7 @@
         <div class="user-info">
             <span id="username">Гость</span>
             <div class="balance">
-                $<span id="balance">0.00</span>
+                ₽<span id="balance">0.00</span>
             </div>
         </div>
         <button class="top-up-btn" onclick="showTopUpModal()">Пополнить</button>
@@ -24,7 +24,7 @@
             <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1-8.313-12.454z"/>
         </svg>
     </button>
-    
+
     <div class="container">
         <!-- Секция тарифов -->
         <div class="section">
@@ -52,41 +52,45 @@
             </div>
         </div>
 
+        <!-- Секция локаций -->
+        <div class="section">
+            <h2>🌍 Наши локации</h2>
+            <button class="location-btn" onclick="showConfig('russia')">
+                <img src="https://flagcdn.com/ru.svg" class="flag" alt="Russia" width="32"> Moscow
+            </button>
 
+            <button class="location-btn" onclick="showConfig('finland')">
+                <img src="https://flagcdn.com/fi.svg" class="flag" alt="Finland" width="32"> Helsinki
+            </button>
 
-<!-- Секция локаций -->
-<div class="section">
-    <h2> Наши локации</h2>
+            <button class="location-btn" onclick="showConfig('netherland')">
+                <img src="https://flagcdn.com/nl.svg" class="flag" alt="Netherlands" width="32"> Amsterdam
+            </button>
 
-    <!-- Существующие кнопки -->
-    <button class="location-btn" onclick="showConfig('russia')">
-        <img src="https://flagcdn.com/ru.svg" class="flag" alt="Russia" width="32"> Moscow</button>
+            <button class="location-btn" onclick="showConfig('germany')">
+                <img src="https://flagcdn.com/de.svg" class="flag" alt="Germany" width="32"> Frankfurt
+            </button>
 
-    <button class="location-btn" onclick="showConfig('finland')">
-        <img src="https://flagcdn.com/fi.svg" class="flag" alt="Finland" width="32"> Helsinki</button>
+            <button class="location-btn" onclick="showConfig('bulgaria')">
+                <img src="https://flagcdn.com/bg.svg" class="flag" alt="Bulgaria" width="32"> Sofia
+            </button>
 
-    <button class="location-btn" onclick="showConfig('netherland')">
-        <img src="https://flagcdn.com/nl.svg" class="flag" alt="Netherlands" width="32"> Amsterdam</button>
+            <button class="location-btn" onclick="showConfig('spain')">
+                <img src="https://flagcdn.com/es.svg" class="flag" alt="Spain" width="32"> Madrid
+            </button>
 
-    <button class="location-btn" onclick="showConfig('germany')">
-        <img src="https://flagcdn.com/de.svg" class="flag" alt="Germany" width="32"> Frankfurt</button>
+            <button class="location-btn" onclick="showConfig('singapore')">
+                <img src="https://flagcdn.com/sg.svg" class="flag" alt="Singapore" width="32"> Singapore
+            </button>
 
-    <button class="location-btn" onclick="showConfig('bulgaria')">
-        <img src="https://flagcdn.com/bg.svg" class="flag" alt="Bulgaria" width="32"> Sofia</button>
+            <button class="location-btn" onclick="showConfig('usa')">
+                <img src="https://flagcdn.com/us.svg" class="flag" alt="USA" width="32"> New York
+            </button>
 
-    <!-- Новые кнопки -->
-    <button class="location-btn" onclick="showConfig('spain')">
-        <img src="https://flagcdn.com/es.svg" class="flag" alt="Spain" width="32"> Madrid</button>
-
-    <button class="location-btn" onclick="showConfig('singapore')">
-        <img src="https://flagcdn.com/sg.svg" class="flag" alt="Singapore" width="32"> Singapore</button>
-
-    <button class="location-btn" onclick="showConfig('usa')">
-        <img src="https://flagcdn.com/us.svg" class="flag" alt="USA" width="32"> New York</button>
-
-    <button class="location-btn" onclick="showConfig('france')">
-        <img src="https://flagcdn.com/fr.svg" class="flag" alt="France" width="32"> Paris</button>
-</div>
+            <button class="location-btn" onclick="showConfig('france')">
+                <img src="https://flagcdn.com/fr.svg" class="flag" alt="France" width="32"> Paris
+            </button>
+        </div>
 
         <!-- Секция поддержки -->
         <div class="section">
@@ -98,117 +102,118 @@
     </div>
 
     <script>
-    // Инициализация пользователя (исправленная версия)
-    function initUser() {
-        try {
-            // Проверяем доступность Telegram WebApp
-            if (typeof Telegram !== 'undefined' && Telegram.WebApp?.initDataUnsafe?.user) {
-                const tgUser = Telegram.WebApp.initDataUnsafe.user;
-                userName = tgUser.first_name || tgUser.username || "Пользователь Telegram";
-                console.log('User data loaded:', tgUser); // Для отладки
-            }
-        } catch (e) {
-            console.error('Error loading user data:', e);
-        }
-        updateUserHeader();
-    }
+        // Глобальные переменные
+        let userBalance = 0.00;
+        let userName = "Гость";
 
-    // Обновление шапки профиля
-    function updateUserHeader() {
-        document.getElementById('username').textContent = userName;
-        document.getElementById('balance').textContent = userBalance.toFixed(2);
-    }
+        // Инициализация Telegram Web App
+        Telegram.WebApp.ready();
+        Telegram.WebApp.expand();
 
-    // Инициализация при загрузке
-    window.onload = function() {
-        initTheme();
-        initUser(); // Важно: было loadUser(), теперь initUser()
-    };
-
-    // Пополнение баланса (исправленная версия)
-    function showTopUpModal() {
-        Telegram.WebApp.showPopup({
-            title: 'Пополнение баланса',
-            message: 'Введите сумму для пополнения:',
-            buttons: [
-                {id: 'cancel', type: 'cancel'},
-                {id: 'confirm', type: 'default', text: 'Пополнить'}
-            ]
-        }, function(buttonId) {
-            if(buttonId === 'confirm') {
-                const amount = parseFloat(prompt("Введите сумму:"));
-                if (!isNaN(amount) && amount > 0) {
-                    userBalance += amount;
-                    updateUserHeader();
-                    Telegram.WebApp.showAlert(`✅ Баланс пополнен на $${amount.toFixed(2)}`);
-                } else {
-                    Telegram.WebApp.showAlert("❌ Некорректная сумма");
+        // Инициализация пользователя
+        function initUser() {
+            try {
+                if (typeof Telegram !== 'undefined' && Telegram.WebApp?.initDataUnsafe?.user) {
+                    const tgUser = Telegram.WebApp.initDataUnsafe.user;
+                    userName = tgUser.first_name || tgUser.username || "Пользователь Telegram";
+                    console.log('Данные пользователя:', tgUser);
                 }
+            } catch (e) {
+                console.error('Ошибка при загрузке данных:', e);
             }
-        });
-    }
+            updateUserHeader();
+        }
 
+        // Обновление шапки профиля
+        function updateUserHeader() {
+            document.getElementById('username').textContent = userName;
+            document.getElementById('balance').textContent = userBalance.toFixed(2);
+        }
+
+        // Инициализация темы
+        function initTheme() {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.body.setAttribute('data-theme', savedTheme);
+            Telegram.WebApp.setHeaderColor(savedTheme === 'dark' ? '#2d2d2d' : '#ffffff');
+        }
+
+        // Переключение темы
         function toggleTheme() {
             const currentTheme = document.body.getAttribute('data-theme') || 'light';
             const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
             
             document.body.setAttribute('data-theme', newTheme);
             localStorage.setItem('theme', newTheme);
-            Telegram.WebApp.setHeaderColor(newTheme === 'dark' ? '#2d2d2d' : '#ffffff');
             
-            // Анимация иконки
             const icon = document.querySelector('.theme-icon');
-            icon.style.transition = 'transform 0.3s ease, fill 0.3s ease';
             icon.style.transform = newTheme === 'dark' ? 'rotate(180deg)' : 'rotate(0deg)';
             icon.style.fill = newTheme === 'dark' ? '#FFD700' : 'var(--text-color)';
         }
 
-        // Инициализация иконки
-        window.onload = function() {
-            initTheme();
-            initUser();
-        };
+        // Пополнение баланса
+        function showTopUpModal() {
+            Telegram.WebApp.showPopup({
+                title: 'Пополнение баланса',
+                message: 'Введите сумму для пополнения:',
+                buttons: [
+                    {id: 'cancel', type: 'cancel'},
+                    {id: 'confirm', type: 'default', text: 'Пополнить'}
+                ]
+            }, function(buttonId) {
+                if(buttonId === 'confirm') {
+                    const amount = parseFloat(prompt("Введите сумму:"));
+                    if (!isNaN(amount) && amount > 0) {
+                        userBalance += amount;
+                        updateUserHeader();
+                        Telegram.WebApp.showAlert(`✅ Баланс пополнен на ${amount.toFixed(2)}₽`);
+                    } else {
+                        Telegram.WebApp.showAlert("❌ Некорректная сумма");
+                    }
+                }
+            });
+        }
 
         // Покупка тарифа
         function showPayment(plan) {
             Telegram.WebApp.showAlert(`Оплата тарифа ${plan}...`);
         }
 
-        // Показ конфигурации
+        // Конфигурации серверов
         const configs = {
-    finland: {
-        vless: "vless://...@finland.server.com:443?...",
-        proxy: "socks5://user:pass@finland.server.com:1080"
-    },
-    spain: {
-        vless: "vless://...@spain.server.com:443?...",
-        proxy: "socks5://user:pass@spain.server.com:1080"
-    },
-    singapore: {
-        vless: "vless://...@singapore.server.com:443?...",
-        proxy: "socks5://user:pass@singapore.server.com:1080"
-    },
-    usa: {
-        vless: "vless://...@usa.server.com:443?...",
-        proxy: "socks5://user:pass@usa.server.com:1080"
-    },
-    france: {
-        vless: "vless://...@france.server.com:443?...",
-        proxy: "socks5://user:pass@france.server.com:1080"
-    }};
+            russia: {
+                vless: "vless://...@ru.server.com:443?...",
+                proxy: "socks5://user:pass@ru.server.com:1080"
+            },
+            finland: {
+                vless: "vless://...@fi.server.com:443?...",
+                proxy: "socks5://user:pass@fi.server.com:1080"
+            },
+            netherland: {
+                vless: "vless://...@nl.server.com:443?...",
+                proxy: "socks5://user:pass@nl.server.com:1080"
+            },
+            // Добавьте остальные конфигурации по аналогии
+        };
 
+        // Показ конфигурации
         function showConfig(location) {
             const config = configs[location];
+            if (!config) {
+                Telegram.WebApp.showAlert("❌ Конфигурация не найдена");
+                return;
+            }
             Telegram.WebApp.showAlert(`
                 🛠 Конфигурация для ${location}:
-                
-                Xray Vless:
-                ${config.vless}
-
-                SOCKS5 Proxy:
-                ${config.proxy}
+                Xray Vless: ${config.vless}
+                SOCKS5 Proxy: ${config.proxy}
             `);
         }
+
+        // Инициализация при загрузке
+        window.onload = function() {
+            initTheme();
+            initUser();
+        };
     </script>
 </body>
 </html>
