@@ -236,21 +236,6 @@
             Telegram.WebApp.setHeaderColor(savedTheme === 'dark' ? '#2d2d2d' : '#ffffff');
         }
 
-        function toggleTheme() {
-            const currentTheme = document.body.getAttribute('data-theme') || 'light';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            document.body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            Telegram.WebApp.setHeaderColor(newTheme === 'dark' ? '#2d2d2d' : '#ffffff');
-            
-            // Анимация иконки
-            const icon = document.querySelector('.theme-icon');
-            icon.style.transform = newTheme === 'dark' 
-                ? 'rotate(180deg) scale(1.1)' 
-                : 'rotate(0deg) scale(1)';
-        }
-
         // Инициализация иконки
         window.onload = function() {
             const theme = localStorage.getItem('theme') || 'light';
