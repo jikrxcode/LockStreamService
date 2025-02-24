@@ -312,14 +312,37 @@
             `);
         }
 
-        // Инициализация при загрузке
-        window.onload = function() {
-        const theme = localStorage.getItem('theme') || 'light';
-        const icon = document.querySelector('.theme-icon');
-        if(theme === 'dark') {
-            icon.style.transform = 'rotate(180deg)';
-            icon.style.fill = '#FFD700';
-        }
+        function initTheme() {
+    const savedTheme = localStorage.getItem('theme') || 'light';
+    document.body.setAttribute('data-theme', savedTheme);
+    const icon = document.querySelector('.theme-icon');
+    if (savedTheme === 'dark') {
+        icon.style.transform = 'rotate(180deg)';
+        icon.style.fill = '#FFD700';
+    } else {
+        icon.style.transform = 'rotate(0deg)';
+        icon.style.fill = 'var(--text-color)';
+    }
+    Telegram.WebApp.setHeaderColor(savedTheme === 'dark' ? '#2d2d2d' : '#ffffff');
+}
+
+function toggleTheme() {
+    const currentTheme = document.body.getAttribute('data-theme') || 'light';
+    const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+    
+    document.body.setAttribute('data-theme', newTheme);
+    localStorage.setItem('theme', newTheme);
+    Telegram.WebApp.setHeaderColor(newTheme === 'dark' ? '#2d2d2d' : '#ffffff');
+    
+    // Анимация иконки
+    const icon = document.querySelector('.theme-icon');
+    icon.style.transition = 'transform 0.3s ease, fill 0.3s ease';
+    icon.style.transform = newTheme === 'dark' ? 'rotate(180deg)' : 'rotate(0deg)';
+    icon.style.fill = newTheme === 'dark' ? '#FFD700' : 'var(--text-color)';
+}
+
+// Инициализация темы и иконки при загрузке страницы
+window.onload = initTheme;
     };
     </script>
 </body>
