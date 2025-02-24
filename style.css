@@ -131,4 +131,47 @@ button:hover {
     padding: 12px;
     border-radius: 50%;
     background: var(--section-bg);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+}
+
+.theme-icon {
+    width: 24px;
+    height: 24px;
+    fill: var(--primary-color);
+}
+
+/* Адаптивность */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    
+    .user-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    button {
+        width: 100%;
+    }
+}
+
+/* Секция поддержки */
+.section > button {
+    background: var(--primary-color);
+    color: white;
+    border-color: transparent;
+    width: 100%;
+}
+
+.section > button:hover {
+    background: var(--hover-color);
+}
+
+/* Флаги */
+.flag {
+    border-radius: 4px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
