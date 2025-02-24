@@ -98,24 +98,17 @@
     </div>
 
     <script>
-    // Инициализация Telegram Web App
-    Telegram.WebApp.ready();
-    Telegram.WebApp.expand();
-
-    // Глобальные переменные
-    let userBalance = 0.00;
-    let userName = "Гость";
-
-    // Инициализация пользователя
+    // Инициализация пользователя (исправленная версия)
     function initUser() {
-        // Пробуем получить данные из Telegram
         try {
-            if (Telegram.WebApp.initDataUnsafe?.user) {
+            // Проверяем доступность Telegram WebApp
+            if (typeof Telegram !== 'undefined' && Telegram.WebApp?.initDataUnsafe?.user) {
                 const tgUser = Telegram.WebApp.initDataUnsafe.user;
                 userName = tgUser.first_name || tgUser.username || "Пользователь Telegram";
+                console.log('User data loaded:', tgUser); // Для отладки
             }
         } catch (e) {
-            console.error('Ошибка получения данных пользователя:', e);
+            console.error('Error loading user data:', e);
         }
         updateUserHeader();
     }
@@ -129,7 +122,7 @@
     // Инициализация при загрузке
     window.onload = function() {
         initTheme();
-        initUser(); // Исправлено с loadUser() на initUser()
+        initUser(); // Важно: было loadUser(), теперь initUser()
     };
 
     // Пополнение баланса (исправленная версия)
