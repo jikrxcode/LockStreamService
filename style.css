@@ -248,7 +248,6 @@ button:hover {
     }
 }*/
 
-<style>
 :root {
     --bg-color: #ffffff;
     --text-color: #000000;
@@ -381,5 +380,4 @@ li::before {
     margin-right: 8px;
     color: var(--accent);
 }
-</style>
 
