@@ -189,6 +189,7 @@ li::before {
     border-radius: 5px;
     background: var(--section-bg);
     border: 2px solid var(--accent);
+    z-index: 1001; /* Добавляем z-index */
 }
 
 .theme-icon {
