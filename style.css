@@ -1,4 +1,4 @@
-:root {
+/*:root {
     --bg-color: #ffffff;
     --text-color: #1a1a1a;
     --primary-color: #28a745;      /* Основной зеленый */
@@ -246,4 +246,106 @@ button:hover {
         font-size: 0.7em;
         padding: 4px 8px;
     }
+}*/
+
+<style>
+:root {
+    --bg-color: #ffffff;
+    --text-color: #000000;
+    --primary-gradient: linear-gradient(45deg, #f3f3f3, #ffffff);
+    --hover-gradient: linear-gradient(45deg, #e0e0e0, #f5f5f5);
+    --section-bg: #f8f9fa;
+    --border-color: #dcdcdc;
+    --accent: #000000;
 }
+
+[data-theme="dark"] {
+    --bg-color: #0a0a0a;
+    --text-color: #ffffff;
+    --primary-gradient: linear-gradient(45deg, #2d2d2d, #1a1a1a);
+    --hover-gradient: linear-gradient(45deg, #3d3d3d, #2a2a2a);
+    --section-bg: #1a1a1a;
+    --border-color: #333333;
+    --accent: #ffffff;
+}
+
+/* Кнопки с градиентом и анимацией */
+button {
+    background: var(--primary-gradient);
+    color: var(--text-color);
+    border: 2px solid var(--accent);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+        45deg,
+        transparent 25%,
+        rgba(255,255,255,0.1) 50%,
+        transparent 75%
+    );
+    animation: flow 3s linear infinite;
+    opacity: 0.3;
+}
+
+@keyframes flow {
+    0% { transform: translateX(-25%) rotate(45deg); }
+    100% { transform: translateX(25%) rotate(45deg); }
+}
+
+button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+}
+
+/* Специфичные стили для кнопок */
+.top-up-btn,
+.plan-card button {
+    background: var(--accent);
+    color: var(--bg-color);
+    border: none;
+}
+
+.top-up-btn::before,
+.plan-card button::before {
+    background: linear-gradient(
+        45deg,
+        transparent 25%,
+        rgba(255,255,255,0.3) 50%,
+        transparent 75%
+    );
+}
+
+/* Карточки тарифов */
+.plan-card {
+    background: var(--section-bg);
+    border: 2px solid var(--accent);
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+}
+
+.discount-badge {
+    background: var(--accent);
+    color: var(--bg-color);
+    font-weight: 900;
+    letter-spacing: 1px;
+}
+
+/* Локации */
+.location-btn {
+    background: var(--section-bg);
+    border: 2px solid var(--accent);
+}
+
+.location-btn:hover {
+    background: var(--hover-gradient);
+}
+</style>
+
