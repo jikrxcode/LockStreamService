@@ -24,97 +24,54 @@
             <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1-8.313-12.454z"/>
         </svg>
     </button>
-    /*
-    <!-- В секции тарифов замените блоки с ценами на эти: -->
-<div class="plan-card">
-    <div class="discount-badge">-25%</div>
-    <h3>Basic</h3>
-    <div class="price-container">
-        <div class="old-price">599₽</div>
-        <div class="new-price">449₽/мес</div>
-    </div>
-    <ul>
-        <li>Любая локация из списка ниже</li>
-        <li>Скорость до 200 Мбит/с</li>
-        <li>1 устройство</li>
-    </ul>
-    <button onclick="showPayment('basic')">Купить</button>
-</div>
 
-<div class="plan-card">
-    <div class="discount-badge">-30%</div>
-    <h3>Pro</h3>
-    <div class="price-container">
-        <div class="old-price">1299₽</div>
-        <div class="new-price">899₽/мес</div>
-    </div>
-    <ul>
-        <li>Приоритетное соединение</li>
-        <li>Скорость до 1 Гбит/с</li>
-        <li>5 устройств</li>
-    </ul>
-    <button onclick="showPayment('pro')">Купить</button>
-</div>*/
+    <div class="container">
+        <!-- Секция тарифов -->
+        <div class="section">
+            <h2>📦 Тарифные планы</h2>
+            <div class="plan-card">
+                <div class="discount-badge">LIMITED</div>
+                <h3>Basic</h3>
+                <div class="price-container">
+                    <div class="price">449₽/мес</div>
+                </div>
+                <ul>
+                    <li>Любая локация из списка ниже</li>
+                    <li>Скорость до 200 Мбит/с</li>
+                    <li>1 устройство</li>
+                </ul>
+                <button onclick="showPayment('basic')">ВЫБРАТЬ</button>
+            </div>
 
-        <div class="plan-card">
-    <div class="discount-badge">LIMITED</div>
-    <h3>Basic</h3>
-    <div class="price-container">
-        <div class="price">449₽/мес</div>
-    </div>
-    <ul>
-        <li>▸ Любая локация</li>
-        <li>▸ До 200 Мбит/с</li>
-        <li>▸ 1 устройство</li>
-    </ul>
-    <button onclick="showPayment('basic')">ВЫБРАТЬ</button>
-</div>
+            <div class="plan-card">
+                <div class="discount-badge">-30%</div>
+                <h3>Pro</h3>
+                <div class="price-container">
+                    <div class="price">899₽/мес</div>
+                </div>
+                <ul>
+                    <li>Приоритетное соединение</li>
+                    <li>Скорость до 1 Гбит/с</li>
+                    <li>5 устройств</li>
+                </ul>
+                <button onclick="showPayment('pro')">ВЫБРАТЬ</button>
+            </div>
+        </div>
 
         <!-- Секция локаций -->
         <div class="section">
             <h2>🌍 Наши локации</h2>
             <button class="location-btn" onclick="showConfig('russia')">
-                <img src="https://flagcdn.com/ru.svg" class="flag" alt="Russia" width="32"> Moscow
+                <img src="https://flagcdn.com/ru.svg" class="flag" alt="Russia"> Moscow
             </button>
-
-            <button class="location-btn" onclick="showConfig('finland')">
-                <img src="https://flagcdn.com/fi.svg" class="flag" alt="Finland" width="32"> Helsinki
-            </button>
-
-            <button class="location-btn" onclick="showConfig('netherland')">
-                <img src="https://flagcdn.com/nl.svg" class="flag" alt="Netherlands" width="32"> Amsterdam
-            </button>
-
-            <button class="location-btn" onclick="showConfig('germany')">
-                <img src="https://flagcdn.com/de.svg" class="flag" alt="Germany" width="32"> Frankfurt
-            </button>
-
-            <button class="location-btn" onclick="showConfig('bulgaria')">
-                <img src="https://flagcdn.com/bg.svg" class="flag" alt="Bulgaria" width="32"> Sofia
-            </button>
-
-            <button class="location-btn" onclick="showConfig('spain')">
-                <img src="https://flagcdn.com/es.svg" class="flag" alt="Spain" width="32"> Madrid
-            </button>
-
-            <button class="location-btn" onclick="showConfig('singapore')">
-                <img src="https://flagcdn.com/sg.svg" class="flag" alt="Singapore" width="32"> Singapore
-            </button>
-
-            <button class="location-btn" onclick="showConfig('usa')">
-                <img src="https://flagcdn.com/us.svg" class="flag" alt="USA" width="32"> New York
-            </button>
-
-            <button class="location-btn" onclick="showConfig('france')">
-                <img src="https://flagcdn.com/fr.svg" class="flag" alt="France" width="32"> Paris
-            </button>
+            <!-- Добавьте остальные локации по аналогии -->
         </div>
 
         <!-- Секция поддержки -->
         <div class="section">
             <h2>🆘 Поддержка</h2>
-            <button onclick="Telegram.WebApp.openTelegramLink('https://telegram.me/ky0teru')">
-                Написать в поддержку
+            <button onclick="Telegram.WebApp.openTelegramLink('tg://resolve?domain=your_support')">
+                📩 Написать в поддержку
             </button>
         </div>
     </div>
