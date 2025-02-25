@@ -45,7 +45,7 @@ h2 {
 button {
     padding: 12px 24px;
     border: 2px solid var(--accent);
-    border-radius: 0;
+    border-radius: 5px;
     cursor: pointer;
     font-weight: bold;
     text-transform: uppercase;
@@ -186,7 +186,7 @@ li::before {
     width: 48px;
     height: 48px;
     padding: 12px;
-    border-radius: 0;
+    border-radius: 5px;
     background: var(--section-bg);
     border: 2px solid var(--accent);
 }
