@@ -347,5 +347,39 @@ button:hover {
 .location-btn:hover {
     background: var(--hover-gradient);
 }
+
+.discount-badge {
+    animation: shimmer 2s infinite;
+}
+
+@keyframes shimmer {
+    0% { opacity: 0.8; }
+    50% { opacity: 1; }
+    100% { opacity: 0.8; }
+}
+
+body {
+    font-family: 'Helvetica Neue', sans-serif;
+    background: var(--bg-color);
+    color: var(--text-color);
+}
+
+h2 {
+    border-bottom: 3px solid var(--accent);
+    padding-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+ul {
+    list-style: none;
+    padding-left: 0;
+}
+
+li::before {
+    content: '▸';
+    margin-right: 8px;
+    color: var(--accent);
+}
 </style>
 
