@@ -8,187 +8,29 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <!-- Личный кабинет -->
-    <div class="user-header">
-        <div class="user-info">
-            <span id="username">Гость</span>
-            <div class="balance">
-                ₽<span id="balance">0.00</span>
-            </div>
-        </div>
-        <button class="top-up-btn" onclick="showTopUpModal()">Пополнить</button>
+    <!-- Гамбургер-меню -->
+    <div class="menu-container">
+        <button class="menu-btn" onclick="toggleMenu()">
+            <div class="menu-icon"></div>
+        </button>
+        
+        <nav class="sidebar" id="sidebar">
+            <ul>
+                <li><a href="#" onclick="showSection('services')">Мои услуги</a></li>
+                <li><a href="#" onclick="showSection('locations')">Наши локации</a></li>
+                <li><a href="#" onclick="showSection('profile')">Личный кабинет</a></li>
+            </ul>
+        </nav>
     </div>
 
-    <button class="theme-switcher" onclick="toggleTheme()">
-        <svg class="theme-icon" viewBox="0 0 24 24">
-            <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1-8.313-12.454z"/>
-        </svg>
-    </button>
-
+    <!-- Основной контент -->
     <div class="container">
-        <!-- Секция тарифов -->
-        <div class="section">
-            <h2>📦 Тарифные планы</h2>
-            <div class="plan-card">
-                <div class="discount-badge">LIMITED</div>
-                <h3>Basic</h3>
-                <div class="price-container">
-                    <div class="price">449₽/мес</div>
-                </div>
-                <ul>
-                    <li>Любая локация из списка ниже</li>
-                    <li>Скорость до 200 Мбит/с</li>
-                    <li>1 устройство</li>
-                </ul>
-                <button onclick="showPayment('basic')">ВЫБРАТЬ</button>
-            </div>
-
-            <div class="plan-card">
-                <div class="discount-badge">-30%</div>
-                <h3>Pro</h3>
-                <div class="price-container">
-                    <div class="price">899₽/мес</div>
-                </div>
-                <ul>
-                    <li>Приоритетное соединение</li>
-                    <li>Скорость до 1 Гбит/с</li>
-                    <li>5 устройств</li>
-                </ul>
-                <button onclick="showPayment('pro')">ВЫБРАТЬ</button>
-            </div>
-        </div>
-
-        <!-- Секция локаций -->
-        <div class="section">
-            <h2>🌍 Наши локации</h2>
-            <button class="location-btn" onclick="showConfig('russia')">
-                <img src="https://flagcdn.com/ru.svg" class="flag" alt="Russia"> Moscow
-            </button>
-            <!-- Добавьте остальные локации по аналогии -->
-        </div>
-
-        <!-- Секция поддержки -->
-        <div class="section">
-            <h2>🆘 Поддержка</h2>
-            <button onclick="Telegram.WebApp.openTelegramLink('tg://resolve?domain=your_support')">
-                📩 Написать в поддержку
-            </button>
+        <!-- Секция будет меняться через JS -->
+        <div class="section" id="content">
+            <!-- Здесь будет основной контент -->
         </div>
     </div>
 
-    <script>
-        // Глобальные переменные
-        let userBalance = 0.00;
-        let userName = "Гость";
-
-        // Инициализация Telegram Web App
-        Telegram.WebApp.ready();
-        Telegram.WebApp.expand();
-
-        // Инициализация пользователя
-        function initUser() {
-            try {
-                if (typeof Telegram !== 'undefined' && Telegram.WebApp?.initDataUnsafe?.user) {
-                    const tgUser = Telegram.WebApp.initDataUnsafe.user;
-                    userName = tgUser.first_name || tgUser.username || "Пользователь Telegram";
-                    console.log('Данные пользователя:', tgUser);
-                }
-            } catch (e) {
-                console.error('Ошибка при загрузке данных:', e);
-            }
-            updateUserHeader();
-        }
-
-        // Обновление шапки профиля
-        function updateUserHeader() {
-            document.getElementById('username').textContent = userName;
-            document.getElementById('balance').textContent = userBalance.toFixed(2);
-        }
-
-        // Инициализация темы
-        function initTheme() {
-            const savedTheme = localStorage.getItem('theme') || 'light';
-            document.body.setAttribute('data-theme', savedTheme);
-            Telegram.WebApp.setHeaderColor(savedTheme === 'dark' ? '#2d2d2d' : '#ffffff');
-        }
-
-        // Переключение темы
-        function toggleTheme() {
-            const currentTheme = document.body.getAttribute('data-theme') || 'light';
-            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
-            
-            document.body.setAttribute('data-theme', newTheme);
-            localStorage.setItem('theme', newTheme);
-            
-            const icon = document.querySelector('.theme-icon');
-            icon.style.transform = newTheme === 'dark' ? 'rotate(180deg)' : 'rotate(0deg)';
-            icon.style.fill = newTheme === 'dark' ? '#FFD700' : 'var(--text-color)';
-        }
-
-        // Пополнение баланса
-        function showTopUpModal() {
-            Telegram.WebApp.showPopup({
-                title: 'Пополнение баланса',
-                message: 'Введите сумму для пополнения:',
-                buttons: [
-                    {id: 'cancel', type: 'cancel'},
-                    {id: 'confirm', type: 'default', text: 'Пополнить'}
-                ]
-            }, function(buttonId) {
-                if(buttonId === 'confirm') {
-                    const amount = parseFloat(prompt("Введите сумму:"));
-                    if (!isNaN(amount) && amount > 0) {
-                        userBalance += amount;
-                        updateUserHeader();
-                        Telegram.WebApp.showAlert(`✅ Баланс пополнен на ${amount.toFixed(2)}₽`);
-                    } else {
-                        Telegram.WebApp.showAlert("❌ Некорректная сумма");
-                    }
-                }
-            });
-        }
-
-        // Покупка тарифа
-        function showPayment(plan) {
-            Telegram.WebApp.showAlert(`Оплата тарифа ${plan}...`);
-        }
-
-        // Конфигурации серверов
-        const configs = {
-            russia: {
-                vless: "vless://...@ru.server.com:443?...",
-                proxy: "socks5://user:pass@ru.server.com:1080"
-            },
-            finland: {
-                vless: "vless://...@fi.server.com:443?...",
-                proxy: "socks5://user:pass@fi.server.com:1080"
-            },
-            netherland: {
-                vless: "vless://...@nl.server.com:443?...",
-                proxy: "socks5://user:pass@nl.server.com:1080"
-            },
-            // Добавьте остальные конфигурации по аналогии
-        };
-
-        // Показ конфигурации
-        function showConfig(location) {
-            const config = configs[location];
-            if (!config) {
-                Telegram.WebApp.showAlert("❌ Конфигурация не найдена");
-                return;
-            }
-            Telegram.WebApp.showAlert(`
-                🛠 Конфигурация для ${location}:
-                Xray Vless: ${config.vless}
-                SOCKS5 Proxy: ${config.proxy}
-            `);
-        }
-
-        // Инициализация при загрузке
-        window.onload = function() {
-            initTheme();
-            initUser();
-        };
-    </script>
+    <script src="app.js"></script>
 </body>
 </html>
