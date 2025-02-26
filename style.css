@@ -1,257 +1,96 @@
-:root {
-    --primary-color: #6C5CE7;    /* Яркий фиолетовый */
-    --secondary-color: #A8A5E6;  /* Светлый фиолетовый */
-    --accent-color: #FFFFFF;      /* Белый акцент */
-    --bg-color: #F8F9FA;          /* Светлый фон */
-    --text-color: #2D3436;        /* Тёмный текст */
-    --section-bg: #ffffff;        /* Фон секций */
-    --border-color: #e0e0e0;      /* Цвет границ */
+/* Меню */
+.menu-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
 }
 
-[data-theme="dark"] {
-    --bg-color: #1A1A1A;          /* Тёмный фон */
-    --text-color: #FFFFFF;         /* Светлый текст */
-    --section-bg: #2D2D2D;         /* Тёмный фон секций */
-    --border-color: #333333;       /* Тёмные границы */
-    --primary-color: #6C5CE7;      /* Яркий фиолетовый */
-    --secondary-color: #A8A5E6;    /* Светлый фиолетовый */
-    --accent-color: #FFFFFF;       /* Белый акцент */
-}
-
-/* Основные стили */
-body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-    margin: 0;
-    padding: 20px;
-    background: var(--bg-color);
-    color: var(--text-color);
-    transition: all 0.3s ease;
-    overflow-x: hidden;
-}
-
-.container {
-    max-width: 800px;
-    margin: 0 auto;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    padding: 20px;
-    border-radius: 15px;
-    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.1);
-}
-
-/* Пользовательская информация */
-.user-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 30px;
-    padding: 20px;
-    background: var(--section-bg);
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(108, 92, 231, 0.1);
-}
-
-.user-info {
-    display: flex;
-    align-items: center;
-    gap: 20px;
-}
-
-#username {
-    font-size: 1.5em;
-    font-weight: 700;
-    color: var(--primary-color);
-}
-
-.balance {
-    font-size: 1.3em;
-    font-weight: 600;
-    color: var(--secondary-color);
-}
-
-/* Кнопки */
-button {
-    padding: 12px 24px;
-    border: 2px solid var(--primary-color);
-    border-radius: 25px;
+.menu-btn {
+    background: none;
+    border: none;
+    padding: 10px;
     cursor: pointer;
-    font-weight: bold;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    color: var(--accent-color);
+}
+
+.menu-icon {
+    width: 30px;
+    height: 3px;
+    background: var(--primary-color);
     position: relative;
-    overflow: hidden;
     transition: all 0.3s ease;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
 }
 
-button:hover {
-    transform: scale(1.05);
-    box-shadow: 0 8px 20px rgba(108, 92, 231, 0.2);
-    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-}
-
-button:active {
-    transform: scale(0.95);
-}
-
-button::before {
+.menu-icon::before,
+.menu-icon::after {
     content: '';
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: linear-gradient(
-        45deg,
-        transparent 25%,
-        rgba(255,255,255,0.2) 50%,
-        transparent 75%
-    );
-    animation: flow 3s linear infinite;
-    opacity: 0.3;
+    width: 30px;
+    height: 3px;
+    background: var(--primary-color);
+    transition: all 0.3s ease;
 }
 
-@keyframes flow {
-    0% { transform: translateX(-25%) rotate(45deg); }
-    100% { transform: translateX(25%) rotate(45deg); }
+.menu-icon::before {
+    transform: translateY(-8px);
 }
 
-/* Карточки */
-.plan-card {
+.menu-icon::after {
+    transform: translateY(8px);
+}
+
+/* Активное состояние меню */
+.menu-btn.active .menu-icon {
+    background: transparent;
+}
+
+.menu-btn.active .menu-icon::before {
+    transform: rotate(45deg);
+}
+
+.menu-btn.active .menu-icon::after {
+    transform: rotate(-45deg);
+}
+
+/* Боковое меню */
+.sidebar {
+    position: fixed;
+    top: 60px;
+    right: -250px;
+    width: 250px;
+    height: calc(100vh - 80px);
     background: var(--section-bg);
-    padding: 25px;
-    border: 2px solid var(--primary-color);
-    margin-bottom: 20px;
-    position: relative;
-    border-radius: 15px;
-    transition: transform 0.3s ease;
+    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+    transition: right 0.3s ease;
+    border-radius: 8px;
+    padding: 20px;
 }
 
-.plan-card:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 8px 20px rgba(108, 92, 231, 0.1);
+.sidebar.active {
+    right: 20px;
 }
 
-.discount-badge {
-    position: absolute;
-    top: -10px;
-    right: -10px;
-    background: var(--accent-color);
-    color: var(--primary-color);
-    padding: 6px 12px;
-    font-weight: 900;
-    letter-spacing: 1px;
-    border-radius: 20px;
-    animation: shimmer 2s infinite;
-    box-shadow: 0 2px 10px rgba(108, 92, 231, 0.1);
+.sidebar ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
 }
 
-@keyframes shimmer {
-    0% { opacity: 0.8; transform: scale(1); }
-    50% { opacity: 1; transform: scale(1.05); }
-    100% { opacity: 0.8; transform: scale(1); }
-}
-
-.price-container {
+.sidebar li {
     margin: 15px 0;
 }
 
-.price {
-    font-size: 1.8em;
-    font-weight: bold;
-    color: var(--primary-color);
+.sidebar a {
+    color: var(--text-color);
+    text-decoration: none;
+    font-size: 1.1em;
+    padding: 10px;
+    display: block;
+    border-radius: 6px;
+    transition: all 0.2s ease;
 }
 
-ul {
-    list-style: none;
-    padding-left: 0;
-}
-
-li {
-    margin: 8px 0;
-}
-
-li::before {
-    content: '▸';
-    margin-right: 8px;
-    color: var(--secondary-color);
-}
-
-/* Локации */
-.location-btn {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    width: 100%;
-    padding: 15px;
-    margin-bottom: 10px;
-    text-align: left;
-    background: var(--section-bg);
-    border: 2px solid var(--primary-color);
-    border-radius: 15px;
-    transition: all 0.3s ease;
-}
-
-.location-btn:hover {
-    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-    color: var(--accent-color);
-}
-
-.flag {
-    width: 32px;
-    height: 20px;
-    object-fit: cover;
-    border: 1px solid var(--border-color);
-    border-radius: 8px;
-}
-
-/* Переключатель темы */
-.theme-switcher {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    width: 48px;
-    height: 48px;
-    padding: 12px;
-    border-radius: 50%;
-    background: var(--section-bg);
-    border: 2px solid var(--primary-color);
-    z-index: 1001;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-.theme-switcher:hover {
-    background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
-}
-
-.theme-icon {
-    width: 24px;
-    height: 24px;
-    fill: var(--text-color);
-}
-
-/* Адаптивность */
-@media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
-
-    button {
-        width: 100%;
-    }
-
-    .user-header {
-        flex-direction: column;
-        gap: 15px;
-        align-items: flex-start;
-    }
-
-    .container {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        padding: 15px;
-    }
+.sidebar a:hover {
+    background: var(--primary-color);
+    color: white;
 }
