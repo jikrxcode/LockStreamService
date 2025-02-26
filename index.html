@@ -1,37 +1,139 @@
 <!DOCTYPE html>
-<html>
+<html lang="ru">
 <head>
-    <title>🚀 LockStream Service</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <script src="https://telegram.org/js/telegram-web-app.js"></script>
-    <link rel="stylesheet" href="style.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LockStream VPN Bot</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', system-ui, sans-serif;
+        }
+
+        body {
+            background: #f8f9fa;
+            color: #2d2d2d;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+
+        header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .logo {
+            width: 120px;
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #1e90ff;
+            margin-bottom: 15px;
+        }
+
+        .description {
+            font-size: 1.1rem;
+            color: #666;
+            max-width: 600px;
+            margin: 0 auto 40px;
+        }
+
+        .cta-section {
+            text-align: center;
+            padding: 40px 0;
+        }
+
+        .telegram-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px 30px;
+            background: #1e90ff;
+            color: white;
+            text-decoration: none;
+            border-radius: 8px;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+
+        .telegram-btn:hover {
+            background: #0077cc;
+        }
+
+        .features {
+            display: grid;
+            gap: 30px;
+            margin: 50px 0;
+        }
+
+        .feature-card {
+            padding: 25px;
+            background: white;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .feature-card h3 {
+            color: #1e90ff;
+            margin-bottom: 15px;
+        }
+
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            border-top: 1px solid #eee;
+        }
+    </style>
 </head>
 <body>
-    <!-- Гамбургер-меню -->
-    <div class="menu-container">
-        <button class="menu-btn" onclick="toggleMenu()">
-            <div class="menu-icon"></div>
-        </button>
-        
-        <nav class="sidebar" id="sidebar">
-            <ul>
-                <li><a href="#" onclick="showSection('services')">Мои услуги</a></li>
-                <li><a href="#" onclick="showSection('locations')">Наши локации</a></li>
-                <li><a href="#" onclick="showSection('profile')">Личный кабинет</a></li>
-            </ul>
-        </nav>
-    </div>
-
-    <!-- Основной контент -->
     <div class="container">
-        <!-- Секция будет меняться через JS -->
-        <div class="section" id="content">
-            <!-- Здесь будет основной контент -->
-        </div>
-    </div>
+        <header>
+            <h1>LockStream VPN</h1>
+            <p class="description">
+                Высокоскоростной VPN-сервис с защитой приватности. 
+                Получите доступ к любым ресурсам через Telegram-бота.
+            </p>
+        </header>
 
-    <script src="app.js"></script>
+        <div class="cta-section">
+            <a href="tg://resolve?domain=your_bot" class="telegram-btn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394a.677.677 0 0 1-.57.176l.213-3.05 5.57-5.04c.238-.213-.054-.297-.373-.107L8.32 13.617l-2.96-.924c-.643-.203-.652-.643.136-.953l11.566-4.458c.538-.196 1.006.128.832.941z"/>
+                </svg>
+                Открыть в Telegram
+            </a>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <h3>🔒 Безопасность</h3>
+                <p>Военное шифрование и защита от утечек DNS</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>⚡ Скорость</h3>
+                <p>Доступ к контенту без ограничений скорости</p>
+            </div>
+            
+            <div class="feature-card">
+                <h3>🌍 Локации</h3>
+                <p>Серверы в 25+ странах мира</p>
+            </div>
+        </div>
+
+        <footer>
+            <p>© 2024 LockStream VPN. Все права защищены.</p>
+        </footer>
+    </div>
 </body>
 </html>
