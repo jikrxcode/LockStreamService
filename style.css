@@ -1,3 +1,37 @@
+:root {
+    --bg-color: #ffffff;
+    --text-color: #2d2d2d;
+    --primary-color: #1e90ff;
+    --hover-color: #0077cc;
+    --section-bg: #f8f9fa;
+    --border-color: #e0e0e0;
+}
+
+[data-theme="dark"] {
+    --bg-color: #1a1a1a;
+    --text-color: #ffffff;
+    --primary-color: #1e90ff;
+    --hover-color: #0077cc;
+    --section-bg: #2d2d2d;
+    --border-color: #444444;
+}
+
+/* Базовые стили */
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 20px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding-top: 60px;
+}
+
 /* Меню */
 .menu-container {
     position: fixed;
@@ -8,16 +42,22 @@
 
 .menu-btn {
     background: none;
-    border: none;
+    border: 2px solid var(--primary-color);
+    border-radius: 8px;
     padding: 10px;
     cursor: pointer;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .menu-icon {
-    width: 30px;
-    height: 3px;
-    background: var(--primary-color);
     position: relative;
+    width: 24px;
+    height: 2px;
+    background: var(--primary-color);
     transition: all 0.3s ease;
 }
 
@@ -25,18 +65,18 @@
 .menu-icon::after {
     content: '';
     position: absolute;
-    width: 30px;
-    height: 3px;
+    width: 24px;
+    height: 2px;
     background: var(--primary-color);
     transition: all 0.3s ease;
 }
 
 .menu-icon::before {
-    transform: translateY(-8px);
+    transform: translateY(-6px);
 }
 
 .menu-icon::after {
-    transform: translateY(8px);
+    transform: translateY(6px);
 }
 
 /* Активное состояние меню */
@@ -52,18 +92,18 @@
     transform: rotate(-45deg);
 }
 
-/* Боковое меню */
+/* Боковая панель */
 .sidebar {
     position: fixed;
-    top: 60px;
-    right: -250px;
+    top: 70px;
+    right: -300px;
     width: 250px;
-    height: calc(100vh - 80px);
+    height: auto;
     background: var(--section-bg);
-    box-shadow: -2px 0 10px rgba(0,0,0,0.1);
-    transition: right 0.3s ease;
     border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
     padding: 20px;
+    transition: right 0.3s ease;
 }
 
 .sidebar.active {
@@ -77,14 +117,14 @@
 }
 
 .sidebar li {
-    margin: 15px 0;
+    margin: 12px 0;
 }
 
 .sidebar a {
     color: var(--text-color);
     text-decoration: none;
     font-size: 1.1em;
-    padding: 10px;
+    padding: 10px 15px;
     display: block;
     border-radius: 6px;
     transition: all 0.2s ease;
@@ -93,4 +133,104 @@
 .sidebar a:hover {
     background: var(--primary-color);
     color: white;
+}
+
+/* Контент */
+.section {
+    background: var(--section-bg);
+    padding: 25px;
+    border-radius: 12px;
+    margin-bottom: 20px;
+    border: 1px solid var(--border-color);
+}
+
+.user-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding: 15px;
+    background: var(--section-bg);
+    border-radius: 8px;
+    border: 1px solid var(--border-color);
+}
+
+.balance {
+    font-size: 1.4em;
+    color: var(--primary-color);
+    font-weight: 700;
+}
+
+button {
+    padding: 12px 24px;
+    border: none;
+    border-radius: 8px;
+    background: var(--primary-color);
+    color: white;
+    cursor: pointer;
+    font-size: 1em;
+    transition: background 0.2s ease;
+}
+
+button:hover {
+    background: var(--hover-color);
+}
+
+.plan-card {
+    padding: 20px;
+    margin-bottom: 15px;
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+}
+
+.price {
+    font-size: 1.8em;
+    color: var(--primary-color);
+    margin: 10px 0;
+}
+
+.location-btn {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 10px;
+    background: var(--section-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+.location-btn:hover {
+    border-color: var(--primary-color);
+}
+
+.flag {
+    width: 32px;
+    height: 20px;
+    border-radius: 4px;
+    object-fit: cover;
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 20px 15px;
+        padding-top: 60px;
+    }
+    
+    .menu-btn {
+        right: 15px;
+        top: 15px;
+    }
+    
+    .sidebar {
+        width: 80%;
+        right: -100%;
+    }
+    
+    .sidebar.active {
+        right: 15px;
+    }
 }
