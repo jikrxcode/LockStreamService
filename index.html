@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LockStream VPN Bot</title>
+    <title>LockStream VPN</title>
     <style>
         * {
             margin: 0;
@@ -18,58 +18,134 @@
             line-height: 1.6;
         }
 
+        /* Меню */
+        .menu-btn {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        .menu-icon {
+            width: 30px;
+            height: 3px;
+            background: #1e90ff;
+            position: relative;
+            transition: 0.3s;
+        }
+
+        .menu-icon::before,
+        .menu-icon::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 3px;
+            background: #1e90ff;
+            transition: 0.3s;
+        }
+
+        .menu-icon::before { transform: translateY(-8px); }
+        .menu-icon::after { transform: translateY(8px); }
+
+        .menu-btn.active .menu-icon { background: transparent; }
+        .menu-btn.active .menu-icon::before { transform: rotate(45deg); }
+        .menu-btn.active .menu-icon::after { transform: rotate(-45deg); }
+
+        /* Боковая панель */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 280px;
+            height: 100vh;
+            background: white;
+            box-shadow: -2px 0 15px rgba(0,0,0,0.1);
+            padding: 80px 20px 20px;
+            transition: 0.3s;
+            z-index: 999;
+        }
+
+        .sidebar.active { right: 0; }
+
+        .nav-list {
+            list-style: none;
+        }
+
+        .nav-item {
+            margin: 15px 0;
+        }
+
+        .nav-link {
+            color: #2d2d2d;
+            text-decoration: none;
+            font-size: 1.1em;
+            padding: 12px;
+            display: block;
+            border-radius: 6px;
+            transition: 0.2s;
+        }
+
+        .nav-link:hover {
+            background: #1e90ff;
+            color: white;
+        }
+
+        /* Контент */
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 40px 20px;
+            padding: 80px 20px 20px;
         }
 
-        header {
-            text-align: center;
-            margin-bottom: 50px;
+        .page {
+            display: none;
         }
 
-        .logo {
-            width: 120px;
+        .page.active {
+            display: block;
+            animation: fadeIn 0.5s;
+        }
+
+        /* Стили для личного кабинета */
+        .balance-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .top-up-form {
+            margin-top: 20px;
+        }
+
+        input[type="number"] {
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            margin-right: 10px;
+            width: 200px;
+        }
+
+        /* Стили для услуг */
+        .service-card {
+            background: white;
+            padding: 20px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
             margin-bottom: 20px;
         }
 
-        h1 {
-            font-size: 2.5rem;
-            color: #1e90ff;
-            margin-bottom: 15px;
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
         }
-
-        .description {
-            font-size: 1.1rem;
-            color: #666;
-            max-width: 600px;
-            margin: 0 auto 40px;
-        }
-
-        .cta-section {
-            text-align: center;
-            padding: 40px 0;
-        }
-
-        .telegram-btn {
-            display: inline-flex;
-            align-items: center;
-            gap: 10px;
-            padding: 15px 30px;
-            background: #1e90ff;
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            font-weight: 500;
-            transition: background 0.2s;
-        }
-
-        .telegram-btn:hover {
-            background: #0077cc;
-        }
-
-        .features {
+        
+                .features {
             display: grid;
             gap: 30px;
             margin: 50px 0;
@@ -93,47 +169,203 @@
             margin-top: 50px;
             border-top: 1px solid #eee;
         }
+        
+        .location-info {
+    margin: 20px 0;
+    padding: 15px;
+    background: #e3f2fd;
+    border-radius: 8px;
+}
+
+.suggestion {
+    margin-top: 10px;
+    color: #666;
+}
+
+.highlight {
+    color: #1e90ff;
+    font-weight: 500;
+}
     </style>
 </head>
 <body>
+    <!-- Кнопка меню -->
+    <button class="menu-btn" onclick="toggleMenu()">
+        <div class="menu-icon"></div>
+    </button>
+
+    <!-- Боковое меню -->
+    <nav class="sidebar" id="sidebar">
+        <ul class="nav-list">
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="showPage('home')">Главная</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="showPage('account')">Личный кабинет</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="showPage('services')">Мои услуги</a>
+            </li>
+            <li class="nav-item">
+                <a href="#" class="nav-link" onclick="showPage('locations')">Наши локации</a>
+            </li>
+            
+        </ul>
+    </nav>
+
+    <!-- Контент страниц -->
     <div class="container">
-        <header>
-            <h1>LockStream VPN</h1>
-            <p class="description">
-                Высокоскоростной VPN-сервис с защитой приватности. 
-                Получите доступ к любым ресурсам через Telegram-бота.
-            </p>
-        </header>
-
-        <div class="cta-section">
-            <a href="tg://resolve?domain=your_bot" class="telegram-btn">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
-                    <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.446 1.394a.677.677 0 0 1-.57.176l.213-3.05 5.57-5.04c.238-.213-.054-.297-.373-.107L8.32 13.617l-2.96-.924c-.643-.203-.652-.643.136-.953l11.566-4.458c.538-.196 1.006.128.832.941z"/>
-                </svg>
-                Открыть в Telegram
-            </a>
-        </div>
-
-        <div class="features">
+        <!-- Главная страница -->
+        <div class="page active" id="home">
+            <h1>Привет, <span id="username">Гость</span>!</h1>
+    <div class="location-info">
+        <p>Вы зашли из <span id="user-city">Кемерово</span></p>
+        <p class="suggestion">А с нами могли бы из <span class="highlight">Хельсинки</span>!</p>
+    </div>
+        
+            
+            <div class="features">
             <div class="feature-card">
                 <h3>🔒 Безопасность</h3>
-                <p>Военное шифрование и защита от утечек DNS</p>
+                <p>VLESS протокол обеспечивает высокий уровень безопасности благодаря современному шифрованию, которое защищает ваши данные от перехвата.</p>
             </div>
-            
+
             <div class="feature-card">
                 <h3>⚡ Скорость</h3>
-                <p>Доступ к контенту без ограничений скорости</p>
+                <p>VLESS протокол позволяет получить высокую скорость без потери пакетов.</p>
             </div>
-            
+
             <div class="feature-card">
                 <h3>🌍 Локации</h3>
-                <p>Серверы в 25+ странах мира</p>
+                <p>Серверы по всей Европе и США со скоростью до 1 Гбит!</p>
+            </div>
+        </div>
+        </div>
+
+        <!-- Личный кабинет -->
+        <div class="page" id="account">
+            <div class="balance-card">
+                <h2>Ваш баланс: <span id="balance">0 ₽</span></h2>
+                <div class="top-up-form">
+                    <input type="number" placeholder="Сумма пополнения" id="amount">
+                    <button onclick="topUpBalance()">Пополнить</button>
+                </div>
             </div>
         </div>
 
+        <!-- Мои услуги -->
+        <div class="page" id="services">
+            <div class="service-card">
+                <h3>Премиум подписка</h3>
+                <p>Локация: США</p>
+                <p>Срок действия: 30 дней</p>
+            </div>
+            <!-- Добавьте больше карточек услуг -->
+        </div>
+        
+        <!-- Наши локации -->
+        <div class="page" id="locations">
+            <div class="location-card">
+                <h3>Премиум подписка</h3>
+                <p>Локация: США</p>
+                <p>Срок действия: 30 дней</p>
+            </div>
+            <!-- Добавьте больше карточек услуг -->
+        </div>
+        
         <footer>
-            <p>© 2024 LockStream VPN. Все права защищены.</p>
+            <p>© 2025 LockStream VPN. Все права защищены.</p>
         </footer>
     </div>
+
+    <script>
+        let currentPage = 'home';
+        let balance = 0;
+
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.querySelector('.menu-btn').classList.toggle('active');
+        }
+
+        function showPage(pageId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(pageId).classList.add('active');
+            currentPage = pageId;
+            toggleMenu();
+        }
+
+        function topUpBalance() {
+            const amount = parseFloat(document.getElementById('amount').value);
+            if(amount > 0) {
+                balance += amount;
+                document.getElementById('balance').textContent = balance.toFixed(2) + ' ₽';
+                alert('Баланс успешно пополнен!');
+            }
+        }
+
+        // Закрытие меню при клике вне его
+        document.addEventListener('click', (e) => {
+            if(!e.target.closest('.sidebar') && !e.target.closest('.menu-btn')) {
+                document.getElementById('sidebar').classList.remove('active');
+                document.querySelector('.menu-btn').classList.remove('active');
+            }
+        });
+        
+        // После объявления переменных
+async function initApp() {
+    // Для Telegram WebApp
+    if (typeof Telegram !== 'undefined' && Telegram.WebApp.initDataUnsafe?.user) {
+        const user = Telegram.WebApp.initDataUnsafe.user;
+        document.getElementById('username').textContent = user.first_name || 'Пользователь';
+    }
+    
+    let currentPage = 'home';
+let balance = 0;
+let userName = 'Гость';
+let userCity = 'вашего города';
+
+async function initApp() {
+    let userIp = '';
+    
+    try {
+        const ipResponse = await fetch('https://api.ipify.org?format=json');
+        const ipData = await ipResponse.json();
+        userIp = ipData.ip;
+    } catch (error) {
+        console.error('Ошибка получения IP:', error);
+        return;
+    }
+
+    // Определение местоположения через более надежный сервис
+    try {
+        const response = await fetch('https://ipinfo.io/${userIp}?token=8083ecc924bc06');
+        const data = await response.json();
+        userCity = data.city || 'вашего города';
+    } catch (error) {
+        console.log('Не удалось определить город');
+    }
+    
+    // Для Telegram WebApp
+    if (typeof Telegram !== 'undefined' && Telegram.WebApp.initDataUnsafe?.user) {
+        const user = Telegram.WebApp.initDataUnsafe.user;
+        userName = user.first_name || 'Пользователь';
+    }
+    
+    updateUI();
+}
+
+function updateUI() {
+    document.getElementById('username').textContent = userName;
+    document.getElementById('user-city').textContent = userCity;
+}
+
+// Остальные функции остаются без изменений
+}
+
+// В конце файла
+window.onload = initApp;
+    </script>
 </body>
 </html>
