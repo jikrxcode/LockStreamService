@@ -313,59 +313,34 @@
             }
         });
         
-        // После объявления переменных
-async function initApp() {
-    // Для Telegram WebApp
-    if (typeof Telegram !== 'undefined' && Telegram.WebApp.initDataUnsafe?.user) {
-        const user = Telegram.WebApp.initDataUnsafe.user;
-        document.getElementById('username').textContent = user.first_name || 'Пользователь';
-    }
-    
-    let currentPage = 'home';
-let balance = 0;
-let userName = 'Гость';
-let userCity = 'вашего города';
-
-async function initApp() {
-    let userIp = '';
-    
+async function getLocation() {
     try {
-        const ipResponse = await fetch('https://api.ipify.org?format=json');
-        const ipData = await ipResponse.json();
-        userIp = ipData.ip;
-    } catch (error) {
-        console.error('Ошибка получения IP:', error);
-        return;
-    }
-
-    // Определение местоположения через более надежный сервис
-    try {
-        const response = await fetch('https://ipinfo.io/${userIp}?token=8083ecc924bc06');
+        const response = await fetch('https://ipapi.vercel.app/api/ipdata');
+        if (!response.ok) throw new Error('Ошибка сети');
         const data = await response.json();
-        userCity = data.city || 'вашего города';
+        return data.city || 'вашего города';
     } catch (error) {
-        console.log('Не удалось определить город');
+        console.error('Ошибка:', error);
+        return 'вашего города';
     }
-    
-    // Для Telegram WebApp
-    if (typeof Telegram !== 'undefined' && Telegram.WebApp.initDataUnsafe?.user) {
-        const user = Telegram.WebApp.initDataUnsafe.user;
-        userName = user.first_name || 'Пользователь';
+}
+
+async function initApp() {
+    try {
+        const city = await getLocation();
+        document.getElementById('user-city').textContent = city;
+
+        // Для Telegram WebApp
+        if (window.Telegram?.WebApp?.initDataUnsafe?.user) {
+            const user = Telegram.WebApp.initDataUnsafe.user;
+            document.getElementById('username').textContent = user.first_name || 'Пользователь';
+        }
+    } catch (error) {
+        console.error('Ошибка инициализации:', error);
     }
-    
-    updateUI();
 }
 
-function updateUI() {
-    document.getElementById('username').textContent = userName;
-    document.getElementById('user-city').textContent = userCity;
-}
-
-// Остальные функции остаются без изменений
-}
-
-// В конце файла
-window.onload = initApp;
+window.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
